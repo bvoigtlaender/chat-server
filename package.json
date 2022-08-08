@@ -1,0 +1,14 @@
+{
+  "name": "chat-server",
+  "version": "0.0.1",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node server.js"
+  },
+  "author": "Bjarne Voigtländer <bjarne.voigtlaender@icloud.com>",
+  "license": "ISC",
+  "dependencies": {
+    "socket.io": "^4.5.1"
+  }
+}
