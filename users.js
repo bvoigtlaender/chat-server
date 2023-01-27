@@ -1,3 +1,8 @@
+const { PrismaClient } = require('@prisma/client');
+const bcrypt = require('bcrypt');
+
+const client = new PrismaClient();
+
 const name = [
   'Jan',
   'Bjarne',
@@ -99,9 +104,25 @@ function generateUsers() {
     out.push(tmp);
   }
   return out;
+}
 
+async function register(email, password) {
+  const hash = await bcrypt.hash(password, 10);
+  await client.user.create({ data: { email, password: hash } });
+}
+
+async function login(email, password) {
+  const user = await client.user.findFirst({ where: { email } })
+  if (user === null) throw new Error('no user found');
+
+  const result = await bcrypt.compare(password, user.password);
+  if (!result) throw new Error('wrong password');
+
+  return user;
 }
 
 module.exports = {
-  generateUsers
+  generateUsers,
+  login,
+  register
 }
